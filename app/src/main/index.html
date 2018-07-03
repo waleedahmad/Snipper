@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags always come first -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Snipper</title>
+</head>
+
+<body>
+  <div id="root" class="h-100"></div>
+  <script>
+    {
+      if (process.env.NODE_ENV) {
+        const bundle = document.createElement('script');
+        const port = 9000;
+        bundle.src = 'http://localhost:' + port + '/app.bundle.js';
+        document.body.appendChild(bundle);
+
+        const devServer = document.createElement('script');
+        devServer.src = 'http://localhost:' + port + '/webpack-dev-server.js';
+        document.body.appendChild(devServer);
+      } else {
+        let headHTML = document.getElementsByTagName('head')[0].innerHTML;
+        headHTML += '<link type="text/css" rel="stylesheet" href="css/main.css">';
+        document.getElementsByTagName('head')[0].innerHTML = headHTML;
+
+        const bundle = document.createElement('script');
+        bundle.src = 'app.bundle.js';
+        document.body.appendChild(bundle);
+      }
+    }
+  </script>
+  <script>
+    if (typeof module === 'object') {
+      window.module = module;
+      module = undefined;
+    }
+  </script>
+  <script>
+    if (window.module) module = window.module;
+  </script>
+</body>
+
+</html>

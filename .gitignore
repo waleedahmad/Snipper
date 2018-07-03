@@ -1,0 +1,10 @@
+node_modules
+.vscode
+yarn.lock
+release
+.idea
+server/uploads
+app/src/main/snips
+app/build
+app/release
+server/uploads
