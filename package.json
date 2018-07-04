@@ -12,7 +12,11 @@
     "server": "node ./server/server.js",
     "postinstall": "electron-builder install-app-deps"
   },
-  "author": "Waleed Ahmad",
+  "author": {
+    "name" : "Waleed Ahmad",
+    "email" : "waleedgplus@gmail.com",
+    "url" : "https://github.com/waleedahmad"
+  },
   "license": "MIT",
   "build": {
     "productName": "Snipper",
