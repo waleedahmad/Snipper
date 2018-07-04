@@ -22,8 +22,13 @@ $ npm run dist
 $ npm run server
 ```
 
-### Screenshots
+### Known Issues
+#### Ubuntu 16.04
+* `kiosk : true` option passed to `BrowserWindow` hides unity laucher
+* Cropper window do not display properly (Black background instead of trasparent)
+* Snipper and Cropper window showing in snips (needs to add delay after hiding `BrowserWindows` and before taking screenshot)
 
+### Screenshots
 
 ![alt text](https://i.imgur.com/Ehe50To.jpg)
 
