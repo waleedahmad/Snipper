@@ -10,7 +10,7 @@ const Jimp = require('jimp');
 const screenSize = electron.screen.getPrimaryDisplay().size;
 const uuidv4 = require('uuid/v4');
 const fs = require('fs');
-const {shell} = require('electron');
+const {shell, remote} = require('electron');
 const {post} = require('axios');
 
 let snipWindow = null,
@@ -155,7 +155,7 @@ class Snipper extends React.Component{
         mainWindow.hide();
     
         setTimeout(() => {
-            console.log('Hide');
+            
             this.getScreenShot((base64data) => {
 
                 // add to buffer base64 image instead of saving locally in order to manipulate with Jimp
@@ -214,7 +214,7 @@ class Snipper extends React.Component{
     }
 
     saveToDisk(e){
-        const directory = path.join(__dirname + '/snips');
+        const directory = remote.app.getPath('pictures');
         const filepath = path.join(directory + '/' + uuidv4() + '.png');
         if (!fs.existsSync(directory)){
             fs.mkdirSync(directory);
