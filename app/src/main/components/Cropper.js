@@ -1,7 +1,7 @@
 import React from 'react';
 import Rnd from 'react-rnd';
-const electron = require('electron');
-const screenSize = electron.screen.getPrimaryDisplay().size;
+const {screen} = require('electron');
+const screenSize = screen.getPrimaryDisplay().size;
 
 const style = {
     display: 'flex',

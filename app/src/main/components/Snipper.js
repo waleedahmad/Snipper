@@ -1,16 +1,22 @@
 import React, {Fragment} from 'react';
 import './Snipper.scss';
 import Cropper from "./Cropper";
-const electron = require('electron');
-const BrowserWindow = electron.remote.BrowserWindow;
+
+const {
+    ipcRenderer,
+    desktopCapturer,
+    screen,
+    shell, 
+    remote,
+} = require('electron');
+
+const BrowserWindow = remote.BrowserWindow;
+const dev = process.env.NODE_ENV === 'development';
 const path = require('path');
-const { ipcRenderer } = require('electron');
-const {desktopCapturer, screen} = require('electron');
 const Jimp = require('jimp');
-const screenSize = electron.screen.getPrimaryDisplay().size;
+const screenSize = screen.getPrimaryDisplay().size;
 const uuidv4 = require('uuid/v4');
 const fs = require('fs');
-const {shell, remote} = require('electron');
 const {post} = require('axios');
 
 let snipWindow = null,
@@ -62,7 +68,7 @@ class Snipper extends React.Component{
     }
 
     getCurrentWindow(){
-        return electron.remote.getCurrentWindow();
+        return remote.getCurrentWindow();
     }
 
     getAllInstances(){
@@ -198,9 +204,11 @@ class Snipper extends React.Component{
             let y= (screenSize.height/2) - 250;
             mainWindow.setPosition(x,y);
         } else if(view === 'main') {
-            mainWindow.setSize(400, 200);
-            let x = (screenSize.width/2) - 200;
-            let y= (screenSize.height/2) - 100;
+            const width = dev ? 800 : 400;
+            const height = dev ? 800 : 200;
+            mainWindow.setSize(width, height);
+            let x = (screenSize.width/2) - width / 2;
+            let y= (screenSize.height/2) - height / 2;
             mainWindow.setPosition(x,y);
         }
     }
