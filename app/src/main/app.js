@@ -6,6 +6,7 @@ const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const url = require('url');
+const dev = process.env.NODE_ENV === 'development';
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -15,8 +16,8 @@ let mainWindow;
 /** This function will create the mainWindow */
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 400,
-        height: 200,
+        width: dev ? 800 : 420,
+        height: dev ? 800 : 200,
         icon: path.join(__dirname, '/res/images/logo.png'),
         frame: false,
     });
@@ -30,9 +31,9 @@ function createWindow() {
         slashes: true,
     }) + '?main');
 
-    if (process.env.NODE_ENV === 'development') {
+    if (dev) {
         // Open the DevTools.
-        //mainWindow.webContents.openDevTools();
+        mainWindow.webContents.openDevTools();
         const {
             default: installExtension,
             REACT_DEVELOPER_TOOLS,
