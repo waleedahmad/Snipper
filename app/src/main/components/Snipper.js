@@ -53,6 +53,7 @@ class Snipper extends React.Component{
 
         snipWindow.loadURL(path.join('file://', __dirname, '/index.html') + '?snip');
         snipWindow.setResizable(false);
+        //snipWindow.webContents.openDevTools();
     }
 
     getContext(){
@@ -152,29 +153,32 @@ class Snipper extends React.Component{
     captureScreen(coordinates,e){
         mainWindow = this.getCurrentWindow();
         mainWindow.hide();
-        this.getScreenShot((base64data) => {
+    
+        setTimeout(() => {
+            console.log('Hide');
+            this.getScreenShot((base64data) => {
 
-            // add to buffer base64 image instead of saving locally in order to manipulate with Jimp
-            let encondedImageBuffer = new Buffer(base64data.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64');
-
-            Jimp.read(encondedImageBuffer, (err, image) => {
-                if (err) throw err;
-
-                let crop = coordinates ?
-                            image.crop(coordinates.x, coordinates.y, parseInt(coordinates.width, 10), parseInt(coordinates.height, 10)) :
-                            image.crop(0,0, screenSize.width, screenSize.height);
-
-                crop.getBase64('image/png', (err,base64data) =>{
-                    this.setState({
-                        image : base64data,
-                        save_controls : true,
+                // add to buffer base64 image instead of saving locally in order to manipulate with Jimp
+                let encondedImageBuffer = new Buffer(base64data.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64');
+    
+                Jimp.read(encondedImageBuffer, (err, image) => {
+                    if (err) throw err;
+    
+                    let crop = coordinates ?
+                                image.crop(coordinates.x, coordinates.y, parseInt(coordinates.width, 10), parseInt(coordinates.height, 10)) :
+                                image.crop(0,0, screenSize.width, screenSize.height);
+    
+                    crop.getBase64('image/png', (err,base64data) =>{
+                        this.setState({
+                            image : base64data,
+                            save_controls : true,
+                        });
+                        this.resizeWindowFor('snip');
+                        mainWindow.show();
                     });
-                    this.resizeWindowFor('snip');
-                    mainWindow.show();
                 });
             });
-
-        });
+        }, 200);
     }
 
     snip(state, e){
